@@ -1,0 +1,22 @@
+# Build and publish output
+[Bb]in/
+[Oo]bj/
+[Pp]ublish/
+
+# Application logs
+[Ll]ogs/
+*.log
+
+# Local configuration and secrets
+appsettings*.json
+!appsettings.example.json
+.env
+.env.*
+!.env.example
+
+# User-specific IDE files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
