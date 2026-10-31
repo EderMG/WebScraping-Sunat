@@ -12,13 +12,23 @@ No se guardan credenciales en el repositorio. Configure estas variables de entor
 | `ConnectionStrings__Scraping` | Cadena de conexión a SQL Server, base `Scraping`, que contiene `dbo.Usuario`. |
 | `Sunat__LoginUrl` | URL vigente de inicio de sesión Clave SOL de SUNAT. |
 
-Configure la cadena de conexión fuera de los archivos versionados, por ejemplo con User Secrets desde la carpeta del proyecto:
+`appsettings.example.json` es una plantilla sin secretos. Puede copiarla como `appsettings.json` para personalizar valores locales; `appsettings.json` está excluido de Git.
+
+Configure los valores sensibles fuera de los archivos versionados, por ejemplo con User Secrets desde la carpeta del proyecto:
 
 ```powershell
 dotnet user-secrets set "ConnectionStrings:Scraping" "Server=LAPTOP-EDER;Database=Scraping;User Id=sa;Password=<contraseña>;TrustServerCertificate=True;"
 ```
 
 Reemplace `<contraseña>` por la clave de SQL Server al ejecutar el comando. La API usa Entity Framework Core para validar `Usuario` y `Password` en `dbo.Usuario`; el token solo se genera si ambos valores coinciden exactamente.
+
+Genere la clave JWT localmente y guárdela con User Secrets:
+
+```powershell
+$jwtKey = [Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+dotnet user-secrets set "Jwt:SigningKey" $jwtKey
+dotnet user-secrets set "Sunat:LoginUrl" "<URL vigente de inicio de sesión Clave SOL>"
+```
 
 ## Depuración en VS Code
 
